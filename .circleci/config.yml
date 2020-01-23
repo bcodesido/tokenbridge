@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:lts
+      - image: circleci/python:3.6.9-node
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -28,6 +28,12 @@ jobs:
           command: |
             cd bridge
             npm run lint
+      - run: 
+          name: slither
+          command: |
+            pip install slither-analyzer --user
+            cd bridge
+            slither . --config-file slither.config.json
       - run: 
           name: contracts migrate
           command: |
